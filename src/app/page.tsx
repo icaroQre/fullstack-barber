@@ -13,6 +13,11 @@ import Image from "next/image"
 const Home = async () => {
   //Chamar banco de dados
   const barbershops = await db.barbershop.findMany({})
+  const popularBarbershops = await db.barbershop.findMany({
+    orderBy: {
+      name: "desc",
+    },
+  })
 
   return (
     <>
@@ -78,7 +83,29 @@ const Home = async () => {
             <BarbershopItem key={barbershop.id} barbershop={barbershop} />
           ))}
         </div>
+
+        {/* POPULARES */}
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          {" "}
+          Populares{" "}
+        </h2>
+
+        <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {popularBarbershops.map((barbershop) => (
+            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
+          ))}
+        </div>
       </div>
+
+      <footer>
+        <Card className="mt-7">
+          <CardContent className="px-5 py-6">
+            <p className="text-sm font-light text-gray-400">
+              © 2023 Copyright <span className="font-bold">FSW Barber</span>
+            </p>
+          </CardContent>
+        </Card>
+      </footer>
     </>
   )
 }
