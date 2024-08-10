@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/_components/ui/card"
 import { Input } from "@/_components/ui/input"
 import { db } from "@/_lib/prisma"
 import { Avatar } from "@radix-ui/react-avatar"
-import { SearchIcon } from "lucide-react"
+import { EyeIcon, SearchIcon } from "lucide-react"
 import Image from "next/image"
 
 const Home = async () => {
@@ -32,6 +32,48 @@ const Home = async () => {
           <Input placeholder="Faça sua busca..." />
           <Button>
             <SearchIcon />
+          </Button>
+        </div>
+
+        {/* BUSCA RÁPIDA */}
+        <div className="mt-6 flex gap-3 overflow-auto [&::-webkit-scrollbar]:hidden">
+          <Button variant={"secondary"} className="gap-2">
+            <Image src={"/cabelo.svg"} alt="Cabelo" height={16} width={16} />
+            <p>Cabelo</p>
+          </Button>
+
+          <Button variant={"secondary"} className="gap-2">
+            <Image src={"/barba.svg"} alt="Barba" height={16} width={16} />
+            <p>Barba</p>
+          </Button>
+
+          <Button variant={"secondary"} className="gap-2">
+            <Image
+              src={"/acabamento.svg"}
+              alt="Acabamento"
+              height={16}
+              width={16}
+            />
+            <p>Acabamento</p>
+          </Button>
+          <Button variant={"secondary"} className="gap-2">
+            <EyeIcon size={16} />
+            <p>Sobrancelha</p>
+          </Button>
+
+          <Button variant={"secondary"} className="gap-2">
+            <Image src={"/barba.svg"} alt="Barba" height={16} width={16} />
+            <p>Barba</p>
+          </Button>
+
+          <Button variant={"secondary"} className="gap-2">
+            <Image
+              src={"/acabamento.svg"}
+              alt="Acabamento"
+              height={16}
+              width={16}
+            />
+            <p>Acabamento</p>
           </Button>
         </div>
 
