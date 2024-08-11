@@ -1,3 +1,4 @@
+import PhoneItem from "@/_components/phone-item"
 import ServiceItem from "@/_components/service-item"
 import { Button } from "@/_components/ui/button"
 import { db } from "@/_lib/prisma"
@@ -21,7 +22,6 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       services: true,
     },
   })
-
   if (!barbershop) {
     return notFound()
   }
@@ -82,6 +82,14 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             <ServiceItem key={service.id} service={service} />
           ))}
         </div>
+      </div>
+      <div className="flex flex-col gap-3 p-5">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+          Contato
+        </h2>
+        {barbershop.phones.map((phone) => (
+          <PhoneItem key={phone} phone={phone} />
+        ))}
       </div>
     </>
   )
