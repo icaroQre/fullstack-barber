@@ -1,8 +1,9 @@
 import PhoneItem from "@/_components/phone-item"
 import ServiceItem from "@/_components/service-item"
+import SidebarButton from "@/_components/sidebar-button"
 import { Button } from "@/_components/ui/button"
 import { db } from "@/_lib/prisma"
-import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react"
+import { ChevronLeftIcon, MapPinIcon, StarIcon } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -51,7 +52,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
         variant={"secondary"}
         className="absolute right-4 top-4"
       >
-        <MenuIcon />
+        <SidebarButton />
       </Button>
 
       <div className="flex flex-col border-b border-solid p-5">
