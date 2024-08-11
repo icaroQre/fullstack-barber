@@ -45,5 +45,34 @@
   }
   body {
     @apply h-full bg-background text-foreground;
-  }   
+  }
+
+  /* Scrollbar customizations */
+  *::-webkit-scrollbar {
+    @apply h-2.5 w-2.5;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply rounded bg-gray-900;
+  }
+
+  *::-webkit-scrollbar-track:hover {
+    @apply bg-gray-800;
+  }
+
+  *::-webkit-scrollbar-track:active {
+    @apply bg-gray-800;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply rounded bg-gray-800;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-800;
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    @apply bg-gray-800;
+  }
 }
