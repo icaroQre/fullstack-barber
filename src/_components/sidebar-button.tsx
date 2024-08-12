@@ -20,18 +20,11 @@ import {
 import { quickSearchOptions } from "@/_constants/search"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import Link from "next/link"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog"
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import DialogLogin from "./dialog-login"
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 
 const SidebarButton = () => {
-  const handleLoginWithGoogleClick = () => signIn("google")
   const { data } = useSession()
   const handleLogoutClick = () => signOut()
 
@@ -75,26 +68,7 @@ const SidebarButton = () => {
               </DialogTrigger>
 
               <DialogContent className="w-[80%] rounded-xl">
-                <DialogHeader>
-                  <DialogTitle>Faça login na plataforma</DialogTitle>
-                  <DialogDescription>
-                    Conecte-se usando sua conta do Google
-                  </DialogDescription>
-                </DialogHeader>
-
-                <Button
-                  variant={"outline"}
-                  className="gap-1"
-                  onClick={() => handleLoginWithGoogleClick()}
-                >
-                  <Image
-                    src={"/google.svg"}
-                    alt="Fazer login com Google"
-                    width={18}
-                    height={18}
-                  />
-                  <p className="font-bold">Google</p>
-                </Button>
+                <DialogLogin />
               </DialogContent>
             </Dialog>
           </div>
