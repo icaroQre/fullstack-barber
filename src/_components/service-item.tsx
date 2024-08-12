@@ -1,13 +1,60 @@
-import { BarbershopService } from "@prisma/client"
+"use client"
+
+import { Barbershop, BarbershopService } from "@prisma/client"
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { Card, CardContent } from "./ui/card"
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet"
+import { useState } from "react"
+import { Calendar } from "./ui/calendar"
+import { ptBR } from "date-fns/locale"
+import { format } from "date-fns"
 
 interface ServiceItemProps {
   service: BarbershopService
+  barbershop: Pick<Barbershop, "name">
 }
 
-const ServiceItem = ({ service }: ServiceItemProps) => {
+const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
+  const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
+    undefined,
+  )
+  const handleDateSelect = (data: Date | undefined) => {
+    setSelectedDay(data)
+  }
+
+  const TIME_LIST = [
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+  ]
+
   return (
     <Card>
       <CardContent className="flex items-center gap-3 p-3">
@@ -33,9 +80,116 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                 currency: "BRL",
               }).format(Number(service.price))}
             </p>
-            <Button variant={"secondary"} size={"sm"}>
-              <p className="text-sm font-bold">Reservar</p>
-            </Button>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant={"secondary"} size={"sm"}>
+                  <p className="text-sm font-bold">Reservar</p>
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto p-5 [&::-webkit-scrollbar]:hidden">
+                <SheetHeader>
+                  <SheetTitle className="flex text-left">
+                    Fazer Reserva
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="mt-6 border-b border-t border-solid py-5">
+                  <Calendar
+                    mode="single"
+                    locale={ptBR}
+                    selected={selectedDay}
+                    onSelect={handleDateSelect}
+                    fromDate={new Date()}
+                    styles={{
+                      head_cell: {
+                        width: "100%",
+                        textTransform: "capitalize",
+                      },
+                      cell: {
+                        width: "100%",
+                      },
+                      button: {
+                        width: "100%",
+                      },
+                      nav_button_previous: {
+                        width: "32px",
+                        height: "32px",
+                      },
+                      nav_button_next: {
+                        width: "32px",
+                        height: "32px",
+                      },
+                      caption: {
+                        textTransform: "capitalize",
+                      },
+                    }}
+                  />
+                </div>
+
+                {selectedDay && (
+                  <div className="flex gap-3 overflow-x-auto border-b border-solid py-5 [&::-webkit-scrollbar]:hidden">
+                    {TIME_LIST.map((time) => (
+                      <Button
+                        key={time}
+                        className="rounded-full"
+                        size={"sm"}
+                        variant={selectedTime === time ? "default" : "outline"}
+                        onClick={() => setSelectedTime(time)}
+                      >
+                        <p className="text-sm">{time}</p>
+                      </Button>
+                    ))}
+                  </div>
+                )}
+
+                {selectedTime && selectedDay && (
+                  <div className="py-6">
+                    <Card>
+                      <CardContent className="flex flex-col gap-3 py-3">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-bold">{service.name}</p>
+                          <p className="text-sm font-bold">
+                            {Intl.NumberFormat("pt-BR", {
+                              style: "currency",
+                              currency: "BRL",
+                            }).format(Number(service.price))}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm text-gray-400">Data</p>
+                          <p className="text-sm text-gray-400">
+                            {format(selectedDay, "d 'de' MMMM", {
+                              locale: ptBR,
+                            })}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm text-gray-400">Horário</p>
+                          <p className="text-sm text-gray-400">
+                            {selectedTime}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm text-gray-400">Barbearia</p>
+                          <p className="text-sm text-gray-400">
+                            {barbershop.name}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {selectedTime && selectedDay && (
+                  <SheetFooter>
+                    <Button>
+                      <p>Confirmar</p>
+                    </Button>
+                  </SheetFooter>
+                )}
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </CardContent>

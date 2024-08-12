@@ -133,14 +133,17 @@ const SidebarButton = () => {
               <Button
                 variant={"ghost"}
                 className="flex items-center justify-start gap-3"
+                asChild
               >
-                <Image
-                  src={option.imageUrl}
-                  alt={option.title}
-                  height={18}
-                  width={18}
-                />
-                <p className="text-sm">{option.title}</p>
+                <Link href={`/barbershops?search=${option.title}`}>
+                  <Image
+                    src={option.imageUrl}
+                    alt={option.title}
+                    height={18}
+                    width={18}
+                  />
+                  <p className="text-sm">{option.title}</p>
+                </Link>
               </Button>
             </SheetClose>
           ))}
