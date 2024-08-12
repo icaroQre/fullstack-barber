@@ -15,7 +15,10 @@ import {
 import { useState } from "react"
 import { Calendar } from "./ui/calendar"
 import { ptBR } from "date-fns/locale"
-import { format } from "date-fns"
+import { format, set } from "date-fns"
+import { useSession } from "next-auth/react"
+import { createBooking } from "@/app/_actions/create-booking"
+import { toast } from "sonner"
 
 interface ServiceItemProps {
   service: BarbershopService
@@ -23,12 +26,34 @@ interface ServiceItemProps {
 }
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
+  const { data } = useSession()
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
   const [selectedTime, setSelectedTime] = useState<string | undefined>(
     undefined,
   )
   const handleDateSelect = (data: Date | undefined) => {
     setSelectedDay(data)
+  }
+  const handleCreateBooking = async () => {
+    try {
+      if (!selectedDay || !selectedTime) return
+      const hour = Number(selectedTime.split(":")[0])
+      const minute = Number(selectedTime.split(":")[1])
+      const newDate = set(selectedDay, {
+        minutes: minute,
+        hours: hour,
+      })
+
+      await createBooking({
+        serviceId: service.id,
+        userId: (data?.user as any).id,
+        date: newDate,
+      })
+      toast.success("Reserva criada com sucesso!")
+    } catch (error) {
+      console.log(error)
+      toast.error("Erro ao criar reserva!")
+    }
   }
 
   const TIME_LIST = [
@@ -181,13 +206,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                   </div>
                 )}
 
-                {selectedTime && selectedDay && (
-                  <SheetFooter>
-                    <Button>
-                      <p>Confirmar</p>
-                    </Button>
-                  </SheetFooter>
-                )}
+                <SheetFooter>
+                  <Button
+                    onClick={handleCreateBooking}
+                    disabled={!selectedDay || !selectedTime}
+                  >
+                    <p>Confirmar</p>
+                  </Button>
+                </SheetFooter>
               </SheetContent>
             </Sheet>
           </div>
