@@ -93,7 +93,7 @@ const SidebarButton = () => {
               className="flex items-center justify-start gap-3"
               asChild
             >
-              <Link href={"/"}>
+              <Link href={"/bookings"}>
                 <CalendarIcon size={18} />{" "}
                 <p className="text-sm">Agendamentos</p>
               </Link>

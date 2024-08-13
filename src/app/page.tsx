@@ -4,8 +4,11 @@ import Header from "@/_components/header"
 import SearchInput from "@/_components/search-input"
 import { Button } from "@/_components/ui/button"
 import { quickSearchOptions } from "@/_constants/search"
+import { authOptions } from "@/_lib/auth"
 import { db } from "@/_lib/prisma"
+import { getServerSession } from "next-auth"
 import Image from "next/image"
+import { notFound } from "next/navigation"
 
 const Home = async () => {
   //Chamar banco de dados
@@ -15,6 +18,31 @@ const Home = async () => {
       name: "desc",
     },
   })
+  const session = await getServerSession(authOptions)
+  //TODO: Adicionar popup de login
+  if (!session) {
+    notFound()
+  }
+  const confirmedBookings = session.user
+    ? await db.booking.findMany({
+        where: {
+          userId: (session as any).user.id,
+          date: {
+            gte: new Date(),
+          },
+        },
+        include: {
+          service: {
+            include: {
+              barbershop: true,
+            },
+          },
+        },
+        orderBy: {
+          date: "asc",
+        },
+      })
+    : []
 
   return (
     <>
@@ -52,8 +80,15 @@ const Home = async () => {
             className="rounded-xl object-cover"
           />
         </div>
-
-        <BookingItem />
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+          {" "}
+          Agendamentos{" "}
+        </h2>
+        <div className="flex flex-row gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {confirmedBookings.map((booking) => (
+            <BookingItem key={booking.id} booking={booking} />
+          ))}
+        </div>
 
         {/* RECOMENDADOS */}
         <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
