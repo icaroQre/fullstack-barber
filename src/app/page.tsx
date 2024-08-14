@@ -10,7 +10,6 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
-import { notFound } from "next/navigation"
 
 const Home = async () => {
   //Chamar banco de dados
@@ -22,10 +21,7 @@ const Home = async () => {
   })
   const session = await getServerSession(authOptions)
   //TODO: Adicionar popup de login
-  if (!session) {
-    notFound()
-  }
-  const confirmedBookings = session.user
+  const confirmedBookings = session?.user
     ? await db.booking.findMany({
         where: {
           userId: (session as any).user.id,

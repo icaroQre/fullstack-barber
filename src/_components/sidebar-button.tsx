@@ -51,8 +51,10 @@ const SidebarButton = () => {
               </Avatar>
 
               <div className="flex flex-col">
-                <h3 className="text-base font-bold">{data.user.name}</h3>
-                <p className="text-xs">{data.user.email}</p>
+                <h3 className="truncate text-base font-bold">
+                  {data.user.name}
+                </h3>
+                <p className="truncate text-xs">{data.user.email}</p>
               </div>
             </div>
           </>
