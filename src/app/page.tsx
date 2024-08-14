@@ -10,6 +10,7 @@ import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { getServerSession } from "next-auth"
 import Image from "next/image"
+import Link from "next/link"
 
 const Home = async () => {
   //Chamar banco de dados
@@ -67,14 +68,21 @@ const Home = async () => {
         {/* BUSCA RÁPIDA */}
         <div className="mt-6 flex gap-3 overflow-auto [&::-webkit-scrollbar]:hidden">
           {quickSearchOptions.map((option) => (
-            <Button key={option.title} variant={"secondary"} className="gap-2">
-              <Image
-                src={option.imageUrl}
-                alt={option.title}
-                height={16}
-                width={16}
-              />
-              <p>{option.title}</p>
+            <Button
+              key={option.title}
+              variant={"secondary"}
+              className="gap-2"
+              asChild
+            >
+              <Link href={`/barbershops?search=${option.title}`}>
+                <Image
+                  src={option.imageUrl}
+                  width={16}
+                  height={16}
+                  alt={option.title}
+                />
+                {option.title}
+              </Link>
             </Button>
           ))}
         </div>
