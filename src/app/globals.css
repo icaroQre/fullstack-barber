@@ -65,14 +65,18 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    @apply rounded bg-gray-800;
+    @apply rounded bg-gray-600;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-800;
+    @apply bg-gray-600;
   }
 
   *::-webkit-scrollbar-thumb:active {
-    @apply bg-gray-800;
+    @apply bg-gray-600;
+  }
+
+  body::-webkit-scrollbar {
+    @apply hidden;
   }
 }

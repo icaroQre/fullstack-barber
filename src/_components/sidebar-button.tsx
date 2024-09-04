@@ -2,13 +2,7 @@
 
 import Image from "next/image"
 import { Button } from "./ui/button"
-import {
-  CalendarIcon,
-  HomeIcon,
-  LogInIcon,
-  LogOutIcon,
-  MenuIcon,
-} from "lucide-react"
+import { HomeIcon, LogInIcon, LogOutIcon, MenuIcon } from "lucide-react"
 import {
   Sheet,
   SheetClose,
@@ -18,11 +12,12 @@ import {
   SheetTrigger,
 } from "./ui/sheet"
 import { quickSearchOptions } from "@/_constants/search"
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
 import DialogLogin from "./dialog-login"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
+import UserProfileInfo from "./user-profile-info"
+import BookingButton from "./booking-button"
 
 const SidebarButton = () => {
   const { data } = useSession()
@@ -42,20 +37,8 @@ const SidebarButton = () => {
 
         {data?.user ? (
           <>
-            <div className="flex flex-row items-center justify-start gap-3 border-b border-solid py-6">
-              <Avatar className="h-[48px] w-[48px]">
-                <AvatarImage
-                  className="rounded-full border-2 border-solid border-primary"
-                  src={data.user.image ?? ""}
-                />
-              </Avatar>
-
-              <div className="flex flex-col">
-                <h3 className="truncate text-base font-bold">
-                  {data.user.name}
-                </h3>
-                <p className="truncate text-xs">{data.user.email}</p>
-              </div>
+            <div className="border-b border-solid py-6">
+              <UserProfileInfo user={data?.user} />
             </div>
           </>
         ) : (
@@ -90,16 +73,7 @@ const SidebarButton = () => {
           </SheetClose>
 
           <SheetClose asChild>
-            <Button
-              variant={"ghost"}
-              className="flex items-center justify-start gap-3"
-              asChild
-            >
-              <Link href={"/bookings"}>
-                <CalendarIcon size={18} />{" "}
-                <p className="text-sm">Agendamentos</p>
-              </Link>
-            </Button>
+            <BookingButton />
           </SheetClose>
         </div>
 

@@ -14,7 +14,7 @@ const SearchInput = () => {
       .string()
       .trim()
       .min(1, {
-        message: "Digite aldo para buscar",
+        message: "Digite algo para buscar",
       })
       .max(50, {
         message: "Busca muito grande",

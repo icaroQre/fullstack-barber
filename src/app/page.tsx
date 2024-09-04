@@ -2,6 +2,7 @@ import BarbershopItem from "@/_components/barbershop-item"
 import BookingItem from "@/_components/booking-item"
 import Header from "@/_components/header"
 import SearchInput from "@/_components/search-input"
+import Slick from "@/_components/slick"
 import { Button } from "@/_components/ui/button"
 import { quickSearchOptions } from "@/_constants/search"
 import { authOptions } from "@/_lib/auth"
@@ -46,97 +47,111 @@ const Home = async () => {
   return (
     <>
       <Header />
-      <div className="p-5">
-        {/* TEXTO */}
-        <h2 className="text-xl font-bold">
-          Olá, {session?.user ? session.user.name : "bem vindo"}!
-        </h2>
-        <p>
-          <span className="capitalize">
-            {format(new Date(), "EEEE, dd", { locale: ptBR })}
-          </span>
-          <span>&nbsp;de&nbsp;</span>
-          <span className="capitalize">
-            {format(new Date(), "MMMM", { locale: ptBR })}
-          </span>
-        </p>
+      <div className="p-5 lg:px-32 lg:py-0">
+        <div className="lg:flex lg:gap-32 lg:py-16">
+          {/* ESQUERDA */}
+          <div className="lg:flex lg:w-[30%] lg:flex-col lg:items-start lg:justify-center">
+            {/* TEXTO */}
+            <div>
+              <h2 className="text-xl font-light lg:text-2xl">
+                Olá,{" "}
+                <span className="font-bold">
+                  {session?.user
+                    ? session.user.name?.split(" ")[0]
+                    : "bem vindo"}
+                  !{" "}
+                </span>
+              </h2>
+              <p>
+                <span className="capitalize">
+                  {format(new Date(), "EEEE, dd", { locale: ptBR })}
+                </span>
+                <span>&nbsp;de&nbsp;</span>
+                <span className="capitalize">
+                  {format(new Date(), "MMMM", { locale: ptBR })}
+                </span>
+              </p>
+            </div>
 
-        <div className="mt-6">
-          <SearchInput />
-        </div>
+            <div className="mt-6 w-full">
+              <SearchInput />
+            </div>
 
-        {/* BUSCA RÁPIDA */}
-        <div className="mt-6 flex gap-3 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {quickSearchOptions.map((option) => (
-            <Button
-              key={option.title}
-              variant={"secondary"}
-              className="gap-2"
-              asChild
-            >
-              <Link href={`/barbershops?search=${option.title}`}>
-                <Image
-                  src={option.imageUrl}
-                  width={16}
-                  height={16}
-                  alt={option.title}
-                />
-                {option.title}
-              </Link>
-            </Button>
-          ))}
-        </div>
-
-        {/* BANNER */}
-        <div className="relative mt-6 h-[150px]">
-          <Image
-            src="/banner-01.png"
-            alt="Agende nos melhores com FSW Barber"
-            fill
-            className="rounded-xl object-cover"
-          />
-        </div>
-        {confirmedBookings.length > 0 && (
-          <>
-            <h2 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-400">
-              Agendamentos
-            </h2>
-
-            {/* AGENDAMENTO */}
-            <div className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-              {confirmedBookings.map((booking) => (
-                <BookingItem
-                  key={booking.id}
-                  booking={JSON.parse(JSON.stringify(booking))}
-                />
+            {/* BUSCA RÁPIDA */}
+            <div className="mt-6 flex gap-3 overflow-auto lg:hidden [&::-webkit-scrollbar]:hidden">
+              {quickSearchOptions.map((option) => (
+                <Button
+                  key={option.title}
+                  variant={"secondary"}
+                  className="gap-2"
+                  asChild
+                >
+                  <Link href={`/barbershops?search=${option.title}`}>
+                    <Image
+                      src={option.imageUrl}
+                      width={16}
+                      height={16}
+                      alt={option.title}
+                    />
+                    {option.title}
+                  </Link>
+                </Button>
               ))}
             </div>
-          </>
-        )}
+
+            {/* BANNER */}
+            <div className="relative mt-6 h-[150px] lg:hidden">
+              <Image
+                src="/banner-01.png"
+                alt="Agende nos melhores com FSW Barber"
+                fill
+                className="rounded-xl object-cover"
+              />
+            </div>
+
+            {/* AGENDAMENTO */}
+            {confirmedBookings.length > 0 && (
+              <div className="w-full">
+                <h2 className="mb-3 mt-6 block text-xs font-bold uppercase text-gray-400 lg:hidden">
+                  Agendamentos
+                </h2>
+                <h2 className="mb-3 mt-6 hidden text-xs font-bold uppercase text-gray-400 lg:block">
+                  Agendamento mais próximo
+                </h2>
+                <div className="flex gap-3 overflow-x-auto lg:overflow-hidden [&::-webkit-scrollbar]:hidden">
+                  {confirmedBookings.map((booking) => (
+                    <BookingItem key={booking.id} booking={booking} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="hidden w-[60%] flex-col items-start justify-center lg:flex">
+            <h2 className="mb-3 mt-6 hidden text-xs font-bold uppercase text-gray-400 lg:flex">
+              Barbearias em Alta
+            </h2>
+            <div className="grid w-full grid-cols-3 gap-5">
+              <BarbershopItem barbershop={popularBarbershops[0]} />
+              <BarbershopItem barbershop={popularBarbershops[1]} />
+              <BarbershopItem barbershop={popularBarbershops[2]} />
+            </div>
+          </div>
+        </div>
 
         {/* RECOMENDADOS */}
-        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400 lg:mb-5 lg:mt-12 lg:text-xl lg:text-white">
           {" "}
           Recomendados{" "}
         </h2>
-
-        <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {barbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
+        <Slick barbershops={barbershops} />
 
         {/* POPULARES */}
-        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400 lg:mb-5 lg:mt-10 lg:text-xl lg:text-white">
           {" "}
           Populares{" "}
         </h2>
-
-        <div className="flex flex-row gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
-          {popularBarbershops.map((barbershop) => (
-            <BarbershopItem key={barbershop.id} barbershop={barbershop} />
-          ))}
-        </div>
+        {/* <MySwiper barbershops={popularBarbershops}/> */}
+        <Slick barbershops={popularBarbershops} />
       </div>
     </>
   )

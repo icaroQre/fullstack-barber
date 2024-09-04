@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky && prisma generate"
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -34,7 +34,10 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.52.2",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
     "sonner": "^1.5.0",
+    "swiper": "^11.1.9",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
@@ -43,6 +46,8 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-slick": "^0.23.13",
+    "@types/swiper": "^6.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "husky": "^9.1.4",
