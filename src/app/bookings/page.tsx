@@ -53,31 +53,39 @@ const Bookings = async () => {
   return (
     <>
       <Header />
-      <div className="p-5">
+      <div className="p-5 lg:px-32">
         <p className="text-xl font-bold"> Agendamentos </p>
-        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
-          {" "}
-          Confirmados{" "}
-        </h2>
-        <div className="flex flex-col gap-3">
-          {confirmedBookings.map((booking) => (
-            <BookingItem
-              key={booking.id}
-              booking={JSON.parse(JSON.stringify(booking))}
-            />
-          ))}
-        </div>
-        <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
-          {" "}
-          Finalizados{" "}
-        </h2>
-        <div className="flex flex-col gap-3">
-          {concluedBookings.map((booking) => (
-            <BookingItem
-              key={booking.id}
-              booking={JSON.parse(JSON.stringify(booking))}
-            />
-          ))}
+
+        <div className="lg:grid lg:grid-cols-2 lg:gap-10">
+          <div>
+            <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+              {" "}
+              Confirmados{" "}
+            </h2>
+            <div className="flex flex-col gap-3">
+              {confirmedBookings.map((booking) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="mb-3 mt-6 font-bold uppercase text-gray-400">
+              {" "}
+              Finalizados{" "}
+            </h2>
+            <div className="flex flex-col gap-3">
+              {concluedBookings.map((booking) => (
+                <BookingItem
+                  key={booking.id}
+                  booking={JSON.parse(JSON.stringify(booking))}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>
