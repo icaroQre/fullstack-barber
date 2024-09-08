@@ -80,14 +80,14 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
           </div>
 
           <div className="mt-5 hidden lg:block">
-            <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+            <h2 className="mb-3 text-xs font-bold uppercase text-gray-400 lg:text-sm">
               Sobre nós
             </h2>
             <p className="text-sm">{barbershop?.description}</p>
           </div>
 
           <div className="mt-3 hidden flex-col gap-3 lg:flex">
-            <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+            <h2 className="mb-3 text-xs font-bold uppercase text-gray-400 lg:text-sm">
               Contato
             </h2>
             {barbershop.phones.map((phone) => (
@@ -105,7 +105,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
       </div>
 
       <div className="border-b border-solid p-5 lg:border-none lg:px-32">
-        <h2 className="mb-3 text-xs font-bold uppercase text-gray-400">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-400 lg:text-sm">
           Serviços
         </h2>
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
